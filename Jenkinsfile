@@ -1,16 +1,22 @@
-pipeline {
+0pipeline {
     agent any
 
     environment {
         DOCKER_IMAGE = 'react-app'
-        REPO_URL = 'https://github.com/techfreaksyed/fastapi-react-ec2/tree/main/frontend'
+        REPO_URL = 'https://github.com/techfreaksyed/fastapi-react-ec2'
         TARGET_FOLDER = 'frontend'
     }
 
     stages {
-        stage('Clone Repository') {
+        stage('Check and Clone Repository') {
             steps {
+            script {
+                if (fileExists('repo')) {
+                echo "Repository already exists. Skipping clone."
+                } else {
                 sh "git clone ${REPO_URL} repo"
+                }
+            }
             }
         }
 
